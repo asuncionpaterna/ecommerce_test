@@ -29,6 +29,7 @@ public class CartService {
     }
 
     public Optional<Cart> getCartById(Long cartId) {
+
         return Optional.ofNullable(carts.get(cartId));
     }
 
@@ -67,10 +68,10 @@ public class CartService {
         LOG.info("All carts have been removed.");
     }
 
-    @Scheduled(fixedRate = 6000) //6 Segundos
+    @Scheduled(fixedRate = 60000) //1 Minuto
     public void cleanInactiveCarts() {
        // LOG.info("Comprobando los carritos inactivos");
         Instant now = Instant.now();
-        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(60).isBefore(now)); //
+        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(600).isBefore(now)); //
     }
 }
