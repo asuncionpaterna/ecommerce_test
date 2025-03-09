@@ -36,6 +36,7 @@ public class CartService {
     public boolean addProductToCart(Long cartId, Product product) {
         Cart cart = carts.get(cartId);
         if (cart != null) {
+
             cart.getProductList().add(product);
             cart.setLastUpdate(Instant.now());
             LOG.info("Product  "+product+" added to cart "+ cartId);
