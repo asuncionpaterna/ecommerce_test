@@ -51,7 +51,6 @@ public class CartService {
             return true;
         }
         return false;
-        //return cart != null && cart.getProductList().removeIf(pr -> pr.equals(product));
     }
 
     public boolean deleteCart(Long cartId) {
@@ -72,9 +71,9 @@ public class CartService {
         LOG.info("All carts have been removed.");
     }
 
-    @Scheduled(fixedRate = 10000) //Medio minuto
+    @Scheduled(fixedRate = 30000) //Medio minuto
     public void cleanInactiveCarts() {
         Instant now = Instant.now();
-        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(20).isBefore(now)); //
+        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(600).isBefore(now)); //600 seconds = 10 minutes
     }
 }

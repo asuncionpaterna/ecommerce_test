@@ -4,9 +4,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.ecommerce.cart.model.Cart;
 import org.ecommerce.cart.service.CartService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CartControllerTest {
 
     @Autowired
@@ -31,7 +28,7 @@ class CartControllerTest {
     @Autowired
     private CartService cartService;
 
-    private static final Logger LOG = Logger.getLogger("LOOGER - CartControllerTest");
+    private static final Logger LOG = Logger.getLogger("LOGER - CartControllerTest");
 
     @BeforeEach
     void cleanUp() throws Exception {
@@ -105,27 +102,25 @@ class CartControllerTest {
         LOG.info("--Test: RemoveProductFromCart--");
 
         Cart cart = cartService.createCart();
-
         String productJson = """
                 {
+                    "productId": 1,
                     "description": "Notebook",
                     "amount": 2
                 }
                 """;
 
-        mockMvc.perform(post("/api/carts/" + cart.getCartId() + "/product")
+        mockMvc.perform(post("/api/carts/" + cart.getCartId()+ "/product")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productJson))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Product added to cart"));
 
-        LOG.info(""+cart.getProductList());
-/*
-        mockMvc.perform(delete("/api/carts/" + cart.getCartId() + "/product")
+        mockMvc.perform(delete("/api/carts/" + cart.getCartId() + "/"+ 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productJson))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Product removed from cart"));*/
+                .andExpect(content().string("Product removed from cart"));
     }
 
     @Test
@@ -171,7 +166,7 @@ class CartControllerTest {
         LOG.info("--Test: cleanInactiveCarts--");
         Long cartId = cartService.createCart().getCartId();
 
-        // 70 segundos
+        // 30 segundos
         Thread.sleep(30000);
         mockMvc.perform(get("/api/carts/" + cartId))
                 .andExpect(status().isNotFound());
