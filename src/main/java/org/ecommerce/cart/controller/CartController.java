@@ -44,9 +44,9 @@ public class CartController {
                 : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{cartId}/product") // Eliminar un producto a carrito
-    public ResponseEntity<String> removeProductFromCart(@PathVariable Long cartId, @RequestBody Product product) {
-        return cartService.deleteProductCart(cartId, product)
+    @DeleteMapping("/{cartId}/{productId}") // Eliminar un producto a carrito
+    public ResponseEntity<String> removeProductFromCart(@PathVariable Long cartId, @PathVariable Long productId) {
+        return cartService.deleteProductCart(cartId, productId)
                 ? ResponseEntity.ok("Product removed from cart")
                 : ResponseEntity.notFound().build();
     }

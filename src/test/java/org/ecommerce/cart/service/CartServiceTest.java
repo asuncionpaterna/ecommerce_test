@@ -77,12 +77,13 @@ class CartServiceTest {
         LOG.info("--Test: Remove product from cart--");
         Cart cart = cartService.createCart();
         Product product = Product.builder()
+                .productId(1L)
                 .description("Lamp")
                 .amount(1)
                 .build();
 
         cartService.addProductToCart(cart.getCartId(), product);
-        boolean removed = cartService.deleteProductCart(cart.getCartId(),product);
+        boolean removed = cartService.deleteProductCart(cart.getCartId(),product.getProductId());
         assertThat(removed).isTrue();
         assertThat(cart.getProductList()).isEmpty();
     }

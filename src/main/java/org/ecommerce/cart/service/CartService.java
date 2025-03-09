@@ -36,7 +36,6 @@ public class CartService {
     public boolean addProductToCart(Long cartId, Product product) {
         Cart cart = carts.get(cartId);
         if (cart != null) {
-            product.setProductId(Product.generateId());
             cart.getProductList().add(product);
             cart.setLastUpdate(Instant.now());
             LOG.info("Product  "+product+" added to cart "+ cartId);
@@ -45,9 +44,14 @@ public class CartService {
         return false;
     }
 
-    public boolean deleteProductCart(Long cartId, Product product){
+    public boolean deleteProductCart(Long cartId, Long productId){
         Cart cart = carts.get(cartId);
-        return cart != null && cart.getProductList().removeIf(pr -> pr.equals(product));
+        if(cart !=null){
+            cart.getProductList().removeIf(pr -> pr.getProductId().equals(productId));
+            return true;
+        }
+        return false;
+        //return cart != null && cart.getProductList().removeIf(pr -> pr.equals(product));
     }
 
     public boolean deleteCart(Long cartId) {
@@ -68,10 +72,9 @@ public class CartService {
         LOG.info("All carts have been removed.");
     }
 
-    @Scheduled(fixedRate = 60000) //1 Minuto
+    @Scheduled(fixedRate = 10000) //Medio minuto
     public void cleanInactiveCarts() {
-       // LOG.info("Comprobando los carritos inactivos");
         Instant now = Instant.now();
-        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(600).isBefore(now)); //
+        carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(20).isBefore(now)); //
     }
 }
