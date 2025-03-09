@@ -25,18 +25,18 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
 
-        return productService.getProductById(productId) //getId
-                .map(ResponseEntity::ok) //Si se mapea OK
-                .orElseGet(()-> ResponseEntity.notFound().build()); //Si no que responda con un notfound
+        return productService.getProductById(productId)
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
-    @GetMapping //Coger todos los carritos
+    @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.findAllProducts();
         return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
     }
 
-    @DeleteMapping("/{productId}") //Eliminar carrito
+    @DeleteMapping("/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
         return productService.deleteProduct(productId)
                 ? ResponseEntity.ok("Product removed")
