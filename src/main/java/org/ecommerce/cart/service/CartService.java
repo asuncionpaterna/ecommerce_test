@@ -65,7 +65,6 @@ public class CartService {
     public void deleteAllCarts() {
         if (carts.isEmpty()) {
             LOG.info("No carts to remove.");
-            return;
         }
         carts.clear();
         LOG.info("All carts have been removed.");

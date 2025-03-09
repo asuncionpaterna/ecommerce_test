@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.logging.Logger;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -164,11 +166,14 @@ class CartControllerTest {
     @Test
     void testCleanInactiveCarts() throws Exception {
         LOG.info("--Test: cleanInactiveCarts--");
-        Long cartId = cartService.createCart().getCartId();
+
+        Cart cart = cartService.createCart();
+        Instant time = (Instant.now()).minus(Duration.ofMinutes(10));
+        cart.setLastUpdate(time);
 
         // 30 segundos
         Thread.sleep(30000);
-        mockMvc.perform(get("/api/carts/" + cartId))
+        mockMvc.perform(get("/api/carts/" + cart.getCartId()))
                 .andExpect(status().isNotFound());
     }
 }

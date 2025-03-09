@@ -104,12 +104,11 @@ class CartServiceTest {
         Cart cart = cartService.createCart();
         Instant time = (Instant.now()).minus(Duration.ofMinutes(10));
         cart.setLastUpdate(time);
-        Long cartId = cart.getCartId();
 
-        // 30 segundos
+        //30 segundos
         Thread.sleep(30000);
         cartService.cleanInactiveCarts();
 
-        assertThat(cartService.getCartById(cartId)).isEmpty();
+        assertThat(cartService.getCartById(cart.getCartId())).isEmpty();
     }
 }
