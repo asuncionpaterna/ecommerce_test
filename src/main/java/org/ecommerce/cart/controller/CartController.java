@@ -1,5 +1,6 @@
 package org.ecommerce.cart.controller;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.cart.model.*;
 import org.ecommerce.cart.service.CartService;
@@ -13,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/carts")
 public class CartController {
-
 
     private final CartService cartService;
 
