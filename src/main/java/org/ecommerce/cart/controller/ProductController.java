@@ -43,4 +43,12 @@ public class ProductController {
                 : ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllProducts() {
+        if (productService.findAllProducts().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No products to remove");
+        }
+        productService.deleteAllProducts();
+        return ResponseEntity.ok("All products have been removed");
+    }
 }

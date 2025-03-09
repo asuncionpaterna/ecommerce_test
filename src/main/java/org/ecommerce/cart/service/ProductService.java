@@ -40,4 +40,13 @@ public class ProductService {
         }
         return false;
     }
+
+    public void deleteAllProducts(){
+        if(products.isEmpty()){
+            LOG.info("No products to remove.");
+        }
+        products.clear();
+        LOG.info("All products have been remove.");
+
+    }
 }

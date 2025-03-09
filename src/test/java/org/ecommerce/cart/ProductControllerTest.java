@@ -20,8 +20,8 @@ public class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-
+    @Autowired
+    private ProductService productService;
     private static final Logger LOG = Logger.getLogger("LOGER - ProductControllerTest");
 
     @Test
@@ -52,6 +52,8 @@ public class ProductControllerTest {
     void testGetAllProducts() throws Exception{
         LOG.info("--Test: GetProductById--");
 
+        productService.deleteAllProducts();
+
         mockMvc.perform(post("/api/products")).andExpect(status().isCreated());
         mockMvc.perform(post("/api/products")).andExpect(status().isCreated());
 
@@ -74,5 +76,33 @@ public class ProductControllerTest {
         mockMvc.perform(delete("/api/products/" + productId))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Product removed"));
+    }
+
+    @Test
+    void testDeleteAllProducts() throws Exception{
+        LOG.info("--Test: DeleteAllProducts--");
+
+        mockMvc.perform(delete("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("All products have been removed"));
+
+        mockMvc.perform(post("/api/products")).andExpect(status().isCreated());
+        mockMvc.perform(post("/api/products")).andExpect(status().isCreated());
+
+        mockMvc.perform(get("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+        mockMvc.perform(delete("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("All products have been removed"));
+
+        mockMvc.perform(get("/api/products"))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(delete("/api/products"))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string("No products to remove"));
+
     }
 }
