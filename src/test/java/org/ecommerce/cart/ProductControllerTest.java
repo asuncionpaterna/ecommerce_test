@@ -21,8 +21,6 @@ public class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ProductService productService;
 
     private static final Logger LOG = Logger.getLogger("LOGER - ProductControllerTest");
 
