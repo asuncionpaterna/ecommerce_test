@@ -22,7 +22,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @GetMapping("/{cartId}") //Coger el carrito
+    @GetMapping("/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
 
         return productService.getProductById(productId) //getId
