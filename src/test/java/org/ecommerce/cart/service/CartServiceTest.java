@@ -5,6 +5,8 @@ import org.ecommerce.cart.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CartServiceTest {
     private CartService cartService;
-    private static final Logger LOG = Logger.getLogger("LOOGER - CartServiceTest");
+    private static final Logger LOG = Logger.getLogger("LOGER - CartServiceTest");
 
 
     @BeforeEach
@@ -100,11 +102,12 @@ class CartServiceTest {
         LOG.info("--Test: Delete all inactive carts--");
 
         Cart cart = cartService.createCart();
+        Instant time = (Instant.now()).minus(Duration.ofMinutes(10));
+        cart.setLastUpdate(time);
         Long cartId = cart.getCartId();
 
-        // 60 segundos
-        Thread.sleep(61000);
-
+        // 30 segundos
+        Thread.sleep(30000);
         cartService.cleanInactiveCarts();
 
         assertThat(cartService.getCartById(cartId)).isEmpty();
