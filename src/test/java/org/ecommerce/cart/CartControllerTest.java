@@ -45,7 +45,7 @@ class CartControllerTest {
 
     @Test
     void testCreateCart() throws Exception {
-        LOG.info("--Test: CreateCart--");
+        LOG.info("--Test: Create cart--");
         mockMvc.perform(post("/api/carts"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.cartId", notNullValue()));
@@ -53,7 +53,7 @@ class CartControllerTest {
 
     @Test
     void testGetCartById() throws Exception {
-        LOG.info("--Test: GetCartById--");
+        LOG.info("--Test: Get cart by Id--");
         String cartResponse = mockMvc.perform(post("/api/carts"))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -67,7 +67,7 @@ class CartControllerTest {
 
     @Test
     void testGetAllCarts() throws Exception {
-        LOG.info("--Test: GetAllCarts--");
+        LOG.info("--Test: Get all carts--");
 
         cartService.deleteAllCarts();
 
@@ -82,7 +82,7 @@ class CartControllerTest {
 
     @Test
     void testAddProductToCart() throws Exception {
-        LOG.info("--Test: AddProductToCart--");
+        LOG.info("--Test: Add product to cart--");
 
         Long cartId = cartService.createCart().getCartId();
         String productJson = """
@@ -101,7 +101,7 @@ class CartControllerTest {
 
     @Test
     void testRemoveProductFromCart() throws Exception {
-        LOG.info("--Test: RemoveProductFromCart--");
+        LOG.info("--Test: Remove product from cart--");
 
         Cart cart = cartService.createCart();
         String productJson = """
@@ -127,7 +127,7 @@ class CartControllerTest {
 
     @Test
     void testDeleteCart() throws Exception {
-        LOG.info("--Test: testDeleteCart--");
+        LOG.info("--Test: Delete cart--");
         String cartResponse = mockMvc.perform(post("/api/carts"))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -141,7 +141,7 @@ class CartControllerTest {
 
     @Test
     void testDeleteAllCarts() throws Exception {
-        LOG.info("--Test: DeleteAllCarts--");
+        LOG.info("--Test: Delete all carts--");
 
         mockMvc.perform(post("/api/carts")).andExpect(status().isCreated());
         mockMvc.perform(post("/api/carts")).andExpect(status().isCreated());
@@ -165,13 +165,13 @@ class CartControllerTest {
 
     @Test
     void testCleanInactiveCarts() throws Exception {
-        LOG.info("--Test: cleanInactiveCarts--");
+        LOG.info("--Test: clean inactive carts--");
 
         Cart cart = cartService.createCart();
         Instant time = (Instant.now()).minus(Duration.ofMinutes(10));
         cart.setLastUpdate(time);
 
-        // 30 segundos
+        // 30 seconds
         Thread.sleep(30000);
         mockMvc.perform(get("/api/carts/" + cart.getCartId()))
                 .andExpect(status().isNotFound());

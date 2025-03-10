@@ -21,7 +21,6 @@ class CartServiceTest {
     void setUp() {
         LOG.info("--Test: SetUp--");
         cartService = new CartService();
-        //cartService.deleteAllCarts();
     }
 
     @Test
@@ -105,7 +104,7 @@ class CartServiceTest {
         Instant time = (Instant.now()).minus(Duration.ofMinutes(10));
         cart.setLastUpdate(time);
 
-        //30 segundos
+        //30 seconds
         Thread.sleep(30000);
         cartService.cleanInactiveCarts();
 

@@ -26,6 +26,4 @@ public class Cart {
     public static long generateId(){
         return ++contadorId;
     }
-
-
 }

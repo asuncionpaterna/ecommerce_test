@@ -29,7 +29,6 @@ public class CartService {
     }
 
     public Optional<Cart> getCartById(Long cartId) {
-
         return Optional.ofNullable(carts.get(cartId));
     }
 
@@ -71,7 +70,7 @@ public class CartService {
         LOG.info("All carts have been removed.");
     }
 
-    @Scheduled(fixedRate = 30000) //Medio minuto
+    @Scheduled(fixedRate = 30000) //30 seconds
     public void cleanInactiveCarts() {
         Instant now = Instant.now();
         carts.entrySet().removeIf(entry -> entry.getValue().getLastUpdate().plusSeconds(600).isBefore(now)); //600 seconds = 10 minutes
